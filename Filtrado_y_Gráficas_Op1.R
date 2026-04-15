@@ -3,7 +3,7 @@ library(dplyr)
 library(ggplot2)
 library(plotly)
 
-Datos_MySd_X_CdyPrdct=readxl::read_xlsx("media_y_desviacion_por_producto_por_ciudad.xlsx")
+Datos_MySd_X_CdyPrdct=readxl::read_xlsx("inputs/media_y_desviacion_por_producto_por_ciudad.xlsx")
 
 #Corregimos algunas cosillas
 Datos_MySd_X_CdyPrdct$nom_ent=gsub(", Índice de precios al consumidor, por objeto del gasto","",
@@ -41,7 +41,7 @@ for(producto in Medias_X_Productos$Genérico){
 #costo promedio (Estabilidad cercana a 100) y bajo cambio en sus precios
 #(Variabilidad cercana a 0)
 Datos_MySd_X_CdyPrdct$Competitivo=Datos_MySd_X_CdyPrdct$Estabilidad_Competitiva*Datos_MySd_X_CdyPrdct$Variabilidad_Competitiva
-openxlsx::write.xlsx(Datos_MySd_X_CdyPrdct,"INPC_Op1.xlsx",overwrite = T)
+openxlsx::write.xlsx(Datos_MySd_X_CdyPrdct,"outputs/INPC_Op1.xlsx",overwrite = T)
 
 #Ahora creamos las graficas por producto
 Gráficas_Op1=list() #Esta será la que guarde las gráficas para verlas después
@@ -69,17 +69,6 @@ for(producto in Medias_X_Productos$Genérico){
   Gráficas_Op1[[s]]=grafica_buena
   names(Gráficas_Op1)[s]=producto
   s=s+1
-  # plot(Datos_MySd_X_CdyPrdct$mean[Datos_MySd_X_CdyPrdct$class_5==producto],
-  #      Datos_MySd_X_CdyPrdct$sd[Datos_MySd_X_CdyPrdct$class_5==producto],
-  #      main=producto,xlab = "Media",ylab="Desviación Estándar",col="purple")
-  # 
-  # text(Datos_MySd_X_CdyPrdct$mean[Datos_MySd_X_CdyPrdct$class_5==producto],
-  #      Datos_MySd_X_CdyPrdct$sd[Datos_MySd_X_CdyPrdct$class_5==producto],
-  #      labels = Datos_MySd_X_CdyPrdct$nom_ent[Datos_MySd_X_CdyPrdct$class_5==producto],
-  #      cex = 0.65,pos = 3)
-  # 
-  # abline(v=Medias_X_Productos$Mean_Mean[Medias_X_Productos$class_5==producto],col="blue")
-  # abline(h=Medias_X_Productos$Mean_Sd[Medias_X_Productos$class_5==producto],col="red")
 }
 
 
@@ -90,4 +79,4 @@ Pivot_MySd=Datos_MySd_X_CdyPrdct|> select(-c(Estabilidad,Variabilidad,Estabilida
   pivot_wider(names_from = Genérico,
               values_from = Competitivo)
 
-openxlsx::write.xlsx(Pivot_MySd,"Pivot_INPC_Op1.xlsx",overwrite = T)
+openxlsx::write.xlsx(Pivot_MySd,"outputs/Pivot_INPC_Op1.xlsx",overwrite = T)

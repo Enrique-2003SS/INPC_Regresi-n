@@ -3,7 +3,7 @@ library(dplyr)
 library(ggplot2)
 library(plotly)
 
-Datos_MySd_X_CdyPrdct2=readxl::read_xlsx("media_y_desviacion_por_producto_por_ciudad.xlsx")
+Datos_MySd_X_CdyPrdct2=readxl::read_xlsx("inputs/media_y_desviacion_por_producto_por_ciudad.xlsx")
 
 #Corregimos algunas cosillas
 Datos_MySd_X_CdyPrdct2$nom_ent=gsub(", Índice de precios al consumidor, por objeto del gasto","",
@@ -40,7 +40,7 @@ for(producto in Datos_Escalados$Genérico){
 Datos_Escalados$Indice_Competitivo[is.na(Datos_Escalados$Indice)]=0
 
 #Para quitar los Na
-openxlsx::write.xlsx(Datos_Escalados,"INPC_Op2.xlsx",overwrite = T)
+openxlsx::write.xlsx(Datos_Escalados,"outputs/INPC_Op2.xlsx",overwrite = T)
 
 
 Gráficas_Op2=list() #Esta será la que guarde las gráficas para verlas después
@@ -81,4 +81,4 @@ Pivot_Indice=Datos_Escalados|> select(-c(Estabilidad,Variabilidad,Estabilidad_No
   pivot_wider(names_from = Genérico,
               values_from = Indice_Competitivo)
 
-openxlsx::write.xlsx(Pivot_Indice,"Pivot_INPC_Op2.xlsx",overwrite = T)
+openxlsx::write.xlsx(Pivot_Indice,"outputs/Pivot_INPC_Op2.xlsx",overwrite = T)
