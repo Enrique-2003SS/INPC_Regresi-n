@@ -14,6 +14,15 @@ datos = datos |>
     )
   )
 
+
+diversidad = datos |> 
+  dplyr::mutate(
+    Diversidad = rowSums(x = dplyr::across(`002 Botanas elaboradas con cereales`:`221 Metro o transporte eléctrico`), na.rm = T)
+  ) |> 
+  dplyr::select(Ciudad, Diversidad)
+
+rowSums(x = , na.rm = )
+
 interes = c("Area Metropolitana de la Cd. de México", "Pachuca, Hgo.", "Tulancingo, Hgo.")
 
 
